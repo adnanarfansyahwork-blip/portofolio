@@ -115,22 +115,28 @@ function App() {
         </div>
       </header>
 
-      {/* Mobile Nav */}
-      <div className={`fixed inset-0 bg-background/98 z-40 flex flex-col items-center justify-center transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
-        <div className="flex flex-col gap-8 text-center">
-          {navItems.map((item) => (
-            <Link
+      {/* Mobile Nav Overlay */}
+      <div className={`fixed inset-0 bg-background z-40 flex flex-col transition-all duration-300 md:hidden ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
+          {navItems.map((item, index) => (
+            <motion.div
               key={item.name}
-              to={item.to}
-              smooth={true}
-              spy={true}
-              offset={-80}
-              duration={500}
-              className="text-2xl font-medium text-textSecondary hover:text-primary transition-colors cursor-pointer"
-              onClick={() => setIsMobileMenuOpen(false)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isMobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ delay: isMobileMenuOpen ? index * 0.1 : 0 }}
             >
-              {item.name}
-            </Link>
+              <Link
+                to={item.to}
+                smooth={true}
+                spy={true}
+                offset={-80}
+                duration={500}
+                className="text-3xl font-outfit font-bold text-textPrimary hover:text-primary transition-colors cursor-pointer"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
